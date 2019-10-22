@@ -27,6 +27,7 @@ declare namespace Joi {
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{
         validate(value: any, options?: _Joi.ValidationOptions | undefined): _Joi.ValidationResult
         required(): this | BaseTypeFactor<Type<this['_A'], true>>
+        valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>> 
 
     }
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
@@ -66,6 +67,7 @@ declare namespace Joi {
         then: _Joi.SchemaLike & A | Joi.AnyTypeFactor<Any>
         otherwise: _Joi.SchemaLike & B | Joi.AnyTypeFactor<Any>
     }
+    export type SchemaLikeA = string | number | boolean | object | null | Joi.BaseTypeFactor<Any>
     export class AlternativesTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
         when<P extends Any>(ref: string | _Joi.Reference, options: WhenOptionsA<P>): AlternativesSchemaA<P>;
         when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaA<P | D>
@@ -89,12 +91,7 @@ declare namespace Joi {
     export function any(): AnySchemaA<any>
     export function when<P extends Any>(ref: string | _Joi.Reference, options: WhenOptionsA<P>): AlternativesSchemaA<P>;
     export function when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaB<P, D>
+    export function combine<P extends Any>(...args:(P|any)[]):P extends Any?BaseTypeFactor<P> & _Joi.AnySchema:P
 }
-
-
-
-
-
-
 
 
