@@ -4,8 +4,8 @@
 
 ## How To Use
 
-```ts
-import Joi, { TypeOf } from '@shimmer/joi';
+``` ts
+import { Joi,TypeOf } from '@neushimmer/joi';
 type SuccessedGet = {
     success:true,
     data:any
@@ -81,12 +81,8 @@ var TicketPostInfoSchema = Joi.object({
     
 })
 
-
-
 export var Ticket = TicketSchema;
 export type Ticket = TypeOf<typeof TicketSchema>
-
-
 
 export var TicketQuestion = TicketQuestionSchema;
 export type TicketQuestion = TypeOf<typeof TicketQuestionSchema>
@@ -112,3 +108,4 @@ export type TicketPostQuestion = TypeOf<typeof TicketPostInfoQuestionSchema>
 export var ErrorPost = ErrorPostSchema;
 export type ErrorPost = TypeOf<typeof ErrorPostSchema>
 ```
+

@@ -1,18 +1,25 @@
 {
-  "name": "@shimmer/joi",
+  "name": "@neushimmer/joi",
   "version": "0.0.2",
   "main": "package/index.js",
   "license": "MIT",
   "typings": "src/index.ts",
-  "description":"A Typescript Pulgin of @hapi/joi",
+  "description": "A Typescript Pulgin of @hapi/joi",
   "repository": "https://github.com/NeuShimmer/joi",
+  "keywords": [
+    "joi",
+    "typescript",
+    "type",
+    "check"
+  ],
   "contributors": [
     {
       "name": "Shimmer NetWork Studio",
       "email": "shimmer@neusoft.edu.cn"
     },
     {
-      "name": "纷羽"
+      "name": "纷羽",
+      "email": "gzj0078@icloud.com"
     },
     {
       "name": "tangtsz"

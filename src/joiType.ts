@@ -12,16 +12,19 @@ export interface Props {
     [key: string]: Mixed;
 }
 export interface Any extends Type<any, any> {
-
 }
+
 export interface Mixed extends Type<any, any> {
 }
+
 export type TypeOf<RT extends Any> = true extends RT['_B'] ? RT['_A'] : RT['_A'] | undefined;
+
 export type SchemaTypeOf<RT extends Any> = RT['_A']
 
-export function validate<T extends Joi.AnySchemaA<Any>>(schema:T,value:any):TypeOf<T>{
+export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): TypeOf<T> {
     return schema.validate(value).value
 }
+
 declare namespace Joi {
     export class AnyTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{ }
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{

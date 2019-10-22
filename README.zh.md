@@ -5,7 +5,7 @@
 ## 使用示例
 
 ```ts
-import Joi, { TypeOf } from '@shimmer/joi';
+import { Joi,TypeOf } from '@neushimmer/joi';
 type SuccessedGet = {
     success:true,
     data:any
