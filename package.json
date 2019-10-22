@@ -1,0 +1,28 @@
+{
+  "name": "@shimmer/joi",
+  "version": "0.0.2",
+  "main": "package/index.js",
+  "license": "MIT",
+  "typings": "src/index.ts",
+  "contributors": [
+    {
+      "name": "Shimmer NetWork Studio",
+      "email": "shimmer@neusoft.edu.cn"
+    },
+    {
+      "name": "纷羽"
+    },
+    {
+      "name": "tangtsz"
+    }
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@hapi/joi": "16"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "16"
+  }
+}
