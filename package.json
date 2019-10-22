@@ -4,6 +4,8 @@
   "main": "package/index.js",
   "license": "MIT",
   "typings": "src/index.ts",
+  "description":"A Typescript Pulgin of @hapi/joi",
+  "repository": "https://github.com/NeuShimmer/joi",
   "contributors": [
     {
       "name": "Shimmer NetWork Studio",
