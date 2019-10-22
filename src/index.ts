@@ -1,3 +1,3 @@
-import Joi from './joiType'
+import * as Joi from './main'
 
 export = Joi

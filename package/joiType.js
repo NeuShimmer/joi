@@ -14,3 +14,7 @@ var Type = /** @class */ (function () {
     return Type;
 }());
 exports.Type = Type;
+function validate(schema, value) {
+    return schema.validate(value).value;
+}
+exports.validate = validate;
