@@ -4,8 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var joiType_1 = __importDefault(require("./joiType"));
-var TypeJson_1 = require("./TypeJson");
-exports.TypeJson = TypeJson_1["default"];
 var joiType_2 = require("./joiType");
 exports.Joi = joiType_2["default"];
 exports.Type = joiType_2.Type;
