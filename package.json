@@ -29,9 +29,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@hapi/joi": "16"
+    "@hapi/joi": "16",
+    "@types/hapi__joi": "16"
   },
   "devDependencies": {
-    "@types/hapi__joi": "16"
   }
 }
