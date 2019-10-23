@@ -1,6 +1,6 @@
 {
   "name": "@neushimmer/joi",
-  "version": "0.0.3",
+  "version": "0.0.4-beta3",
   "main": "package/index.js",
   "license": "MIT",
   "typings": "src/index.ts",
