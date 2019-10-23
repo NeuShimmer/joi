@@ -94,7 +94,8 @@ declare namespace Joi {
     export function any(): AnySchemaA<any>
     export function when<P extends Any>(ref: string | _Joi.Reference, options: WhenOptionsA<P>): AlternativesSchemaA<P>;
     export function when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaB<P, D>
-    export function combine<P extends Any>(...args:(P|any)[]):P extends Any?BaseTypeFactor<P> & _Joi.AnySchema:P
+    export function combine<T extends Any>(args:T[]):Joi.AnySchemaA<T>
 }
-
-
+Joi['combine'] = function<T extends Any>(args:T[]):Joi.AnySchemaA<T>{
+    return args as any
+}
