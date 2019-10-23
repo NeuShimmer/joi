@@ -28,8 +28,8 @@ declare namespace Joi {
         validate(value: any, options?: _Joi.ValidationOptions | undefined): _Joi.ValidationResult
         required(): this | BaseTypeFactor<Type<this['_A'], true>>
         valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>> 
-
     }
+    export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
 
         /**
@@ -93,7 +93,7 @@ declare namespace Joi {
     export function when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaB<P, D>
     export function combine<T extends Any>(args:T[]):Joi.AnySchemaA<T>
 }
-_Joi['combine'] = function<T extends Any>(args:T[]):Joi.AnySchemaA<T>{
+_Joi['combine'] = function<T extends Any>(args:T[]):Joi.EmptyTypeFactor<T>{
     return args as any
 }
 type exJoi = typeof Joi & typeof _Joi
