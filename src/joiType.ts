@@ -1,7 +1,4 @@
 import _Joi from '@hapi/joi';
-type exJoi = typeof Joi & typeof _Joi
-var __Joi: exJoi = <any>_Joi as exJoi;
-export default __Joi;
 
 export class Type<A, B>{
     readonly _A: A = {} as A;
@@ -99,3 +96,6 @@ declare namespace Joi {
 Joi['combine'] = function<T extends Any>(args:T[]):Joi.AnySchemaA<T>{
     return args as any
 }
+type exJoi = typeof Joi & typeof _Joi
+var __Joi: exJoi = <any>_Joi as exJoi;
+export default __Joi;
