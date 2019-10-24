@@ -27,7 +27,8 @@ declare namespace Joi {
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{
         validate(value: any, options?: _Joi.ValidationOptions | undefined): _Joi.ValidationResult
         required(): this | BaseTypeFactor<Type<this['_A'], true>>
-        valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>> 
+        valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
+        default(arg?:any):this |BaseTypeFactor<Type<this['_A'],true>>
     }
     export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
@@ -78,8 +79,9 @@ declare namespace Joi {
     export type BooleanSchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.BooleanSchema
     export type ArraySchemaA<T extends Any> = ArrayTypeFactor<T> & Joi.AnySchemaA<T> & _Joi.ArraySchema
     export type AnySchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.AnySchema
+    export type DateSchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.DateSchema
     export type AlternativesSchemaA<T extends Any> = AlternativesTypeFactor<T> & _Joi.AnySchema & _Joi.AlternativesSchema
-    export type AlternativesSchemaB<T extends Any, P extends Any> = AlternativesTypeFactor<T> & AlternativesSchemaA<P> & _Joi.AnySchema & _Joi.AlternativesSchema
+    export type AlternativesSchemaB<T extends Any, P extends Any> = (AlternativesTypeFactor<T> | AlternativesSchemaA<P>) & _Joi.AnySchema & _Joi.AlternativesSchema
     export type ParamType<R extends Props> = Type<{ [K in keyof R]: TypeOf<R[K]> }, false>;
 
     export function object<R extends Props>(required: R): ObjectSchemaA<ParamType<R>>
@@ -89,6 +91,7 @@ declare namespace Joi {
     export function bool(): BooleanSchemaA<Type<boolean, false>>
     export function array(): ArraySchemaA<Type<any[], false>>
     export function any(): AnySchemaA<any>
+    export function date():DateSchemaA<Type<Date,false>>
     export function when<P extends Any>(ref: string | _Joi.Reference, options: WhenOptionsA<P>): AlternativesSchemaA<P>;
     export function when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaB<P, D>
     export function combine<T extends Any>(args:T[]):Joi.AnySchemaA<T>
