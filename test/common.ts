@@ -76,7 +76,6 @@ var TicketPostInfoSchema = Joi.object({
 
 export var Ticket = TicketSchema;
 export type Ticket = TypeOf<typeof TicketSchema>
-
 export var TicketQuestion = TicketQuestionSchema;
 export type TicketQuestion = TypeOf<typeof TicketQuestionSchema>
 

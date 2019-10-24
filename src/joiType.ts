@@ -23,9 +23,15 @@ export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): 
 }
 
 declare namespace Joi {
+    interface ValidationResultA<T extends Any>{
+        error: _Joi.ValidationError;
+        errors: _Joi.ValidationError;
+        warning: _Joi.ValidationError;
+        value:T['_A']
+    }
     export class AnyTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{ }
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{
-        validate(value: any, options?: _Joi.ValidationOptions | undefined): _Joi.ValidationResult
+        validate(value: any, options?: _Joi.ValidationOptions | undefined): ValidationResultA<this>
         required(): this | BaseTypeFactor<Type<this['_A'], true>>
         valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
         default(arg?:any):this |BaseTypeFactor<Type<this['_A'],true>>
