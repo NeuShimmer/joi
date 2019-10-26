@@ -1,5 +1,8 @@
 import _Joi from '@hapi/joi';
 
+export class IsNotNull{
+    readonly _Z:true = true
+}
 export class Type<A, B>{
     readonly _A: A = {} as A;
     readonly _B: B = {} as B;
@@ -13,8 +16,7 @@ export interface Any extends Type<any, any> {
 
 export interface Mixed extends Type<any, any> {
 }
-
-export type TypeOf<RT extends Any> = true extends RT['_B'] ? RT['_A'] : RT['_A'] | undefined;
+export type TypeOf<RT extends Any|IsNotNull> = RT extends Any?RT extends IsNotNull?RT['_A']:RT['_A']|undefined:never
 
 export type SchemaTypeOf<RT extends Any> = RT['_A']
 
@@ -32,9 +34,9 @@ declare namespace Joi {
     export class AnyTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{ }
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{
         validate(value: any, options?: _Joi.ValidationOptions | undefined): ValidationResultA<this>
-        required(): this | BaseTypeFactor<Type<this['_A'], true>>
+        required(): this & IsNotNull
         valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
-        default(arg?:any):this |BaseTypeFactor<Type<this['_A'],true>>
+        default(arg?:any):this& IsNotNull
     }
     export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
