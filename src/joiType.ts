@@ -1,5 +1,8 @@
 import _Joi from '@hapi/joi';
 
+export class IsNotNull{
+    readonly _Z:true = true
+}
 export class Type<A, B>{
     readonly _A: A = {} as A;
     readonly _B: B = {} as B;
@@ -13,8 +16,7 @@ export interface Any extends Type<any, any> {
 
 export interface Mixed extends Type<any, any> {
 }
-
-export type TypeOf<RT extends Any> = true extends RT['_B'] ? RT['_A'] : RT['_A'] | undefined;
+export type TypeOf<RT extends Any|IsNotNull> = RT extends Any?RT extends IsNotNull?RT['_A']:RT['_A']|undefined:never
 
 export type SchemaTypeOf<RT extends Any> = RT['_A']
 
@@ -23,11 +25,18 @@ export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): 
 }
 
 declare namespace Joi {
+    interface ValidationResultA<T extends Any>{
+        error: _Joi.ValidationError;
+        errors: _Joi.ValidationError;
+        warning: _Joi.ValidationError;
+        value:T['_A']
+    }
     export class AnyTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{ }
     export class BaseTypeFactor<T extends Any> extends AnyTypeFactor<T>{
-        validate(value: any, options?: _Joi.ValidationOptions | undefined): _Joi.ValidationResult
-        required(): this | BaseTypeFactor<Type<this['_A'], true>>
-        valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>> 
+        validate(value: any, options?: _Joi.ValidationOptions | undefined): ValidationResultA<this>
+        required(): this & IsNotNull
+        valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
+        default(arg?:any):this& IsNotNull
     }
     export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
@@ -78,8 +87,9 @@ declare namespace Joi {
     export type BooleanSchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.BooleanSchema
     export type ArraySchemaA<T extends Any> = ArrayTypeFactor<T> & Joi.AnySchemaA<T> & _Joi.ArraySchema
     export type AnySchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.AnySchema
+    export type DateSchemaA<T extends Any> = BaseTypeFactor<T> & _Joi.DateSchema
     export type AlternativesSchemaA<T extends Any> = AlternativesTypeFactor<T> & _Joi.AnySchema & _Joi.AlternativesSchema
-    export type AlternativesSchemaB<T extends Any, P extends Any> = AlternativesTypeFactor<T> & AlternativesSchemaA<P> & _Joi.AnySchema & _Joi.AlternativesSchema
+    export type AlternativesSchemaB<T extends Any, P extends Any> = (AlternativesTypeFactor<T> | AlternativesSchemaA<P>) & _Joi.AnySchema & _Joi.AlternativesSchema
     export type ParamType<R extends Props> = Type<{ [K in keyof R]: TypeOf<R[K]> }, false>;
 
     export function object<R extends Props>(required: R): ObjectSchemaA<ParamType<R>>
@@ -89,6 +99,7 @@ declare namespace Joi {
     export function bool(): BooleanSchemaA<Type<boolean, false>>
     export function array(): ArraySchemaA<Type<any[], false>>
     export function any(): AnySchemaA<any>
+    export function date():DateSchemaA<Type<Date,false>>
     export function when<P extends Any>(ref: string | _Joi.Reference, options: WhenOptionsA<P>): AlternativesSchemaA<P>;
     export function when<P extends Any, D extends Any>(ref: string | _Joi.Reference, options: WhenOptionsB<P, D>): AlternativesSchemaB<P, D>
     export function combine<T extends Any>(args:T[]):Joi.AnySchemaA<T>
