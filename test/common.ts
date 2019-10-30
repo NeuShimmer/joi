@@ -1,4 +1,4 @@
-import { Joi,TypeOf } from '../'
+import { Joi,TypeOf, SchemaTypeOf } from '../'
 type SuccessedGet = {
     success:true,
     data:any
@@ -73,6 +73,25 @@ var TicketPostInfoSchema = Joi.object({
     })
     
 })
+
+class CustomClass{
+    aaa:string;
+    bbb(){
+        return this.aaa;
+    }
+}
+let customSchema = Joi.object({
+    ttt:Joi.object().custom((v,h)=>{
+        if(v instanceof CustomClass){
+            return v;
+        }
+        h.error('The value must be an instance of CustomClass')
+        return undefined
+    })
+})
+
+export type CustomTest = SchemaTypeOf<typeof customSchema>
+
 
 export var Ticket = TicketSchema;
 export type Ticket = TypeOf<typeof TicketSchema>

@@ -23,7 +23,6 @@ export type SchemaTypeOf<RT extends Any> = RT['_A']
 export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): TypeOf<T> {
     return schema.validate(value).value
 }
-
 declare namespace Joi {
     interface ValidationResultA<T extends Any>{
         error: _Joi.ValidationError;
@@ -37,6 +36,7 @@ declare namespace Joi {
         required(): this & IsNotNull
         valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
         default(arg?:any):this& IsNotNull
+        custom<Q extends (value:any,helpers?:_Joi.CustomHelpers)=>any>(fn: Q, description?: string):this & BaseTypeFactor<Type<ReturnType<Q>,false>>
     }
     export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
@@ -93,6 +93,7 @@ declare namespace Joi {
     export type ParamType<R extends Props> = Type<{ [K in keyof R]: TypeOf<R[K]> }, false>;
 
     export function object<R extends Props>(required: R): ObjectSchemaA<ParamType<R>>
+    export function object<T extends {}>():ObjectSchemaA<Type<T,false>>
     export function string(): StringSchemaA<Type<string, false>>
     export function number(): NumberSchemaA<Type<number, false>>
     export function boolean(): BooleanSchemaA<Type<boolean, false>>
