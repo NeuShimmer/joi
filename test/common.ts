@@ -85,11 +85,9 @@ let customSchema = Joi.object({
         if(v instanceof CustomClass){
             return v;
         }
-        h.error('The value must be an instance of CustomClass')
-        return undefined
+        return h.error('The value must be an instance of CustomClass')
     })
 })
-
 export type CustomTest = SchemaTypeOf<typeof customSchema>
 
 

@@ -20,9 +20,13 @@ export type TypeOf<RT extends Any|IsNotNull> = RT extends Any?RT extends IsNotNu
 
 export type SchemaTypeOf<RT extends Any> = RT['_A']
 
+type NonSomeable<A,B> = A extends B?never:A;
+
 export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): TypeOf<T> {
     return schema.validate(value).value
 }
+
+
 declare namespace Joi {
     interface ValidationResultA<T extends Any>{
         error: _Joi.ValidationError;
@@ -36,7 +40,7 @@ declare namespace Joi {
         required(): this & IsNotNull
         valid<P extends this['_A']>(...args:P[]):AnySchemaA<Type<P,false>>
         default(arg?:any):this& IsNotNull
-        custom<Q extends (value:any,helpers?:_Joi.CustomHelpers)=>any>(fn: Q, description?: string):this & BaseTypeFactor<Type<ReturnType<Q>,false>>
+        custom<Q extends (value:any,helpers?:_Joi.CustomHelpers)=>any>(fn: Q, description?: string):this & BaseTypeFactor<Type<NonSomeable<ReturnType<Q>,_Joi.ErrorReport>,false>>
     }
     export class EmptyTypeFactor<T extends Any> extends AnyTypeFactor<T>{}
     export class ArrayTypeFactor<T extends Any> extends Type<T['_A'], T['_B']>{
