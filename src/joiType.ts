@@ -26,7 +26,7 @@ export type PartialPick<T,K extends keyof T> = {[P in K]?:T[P]}
 
 export type IsNonUndefined<T> = {[K in keyof T]:undefined extends T[K] ?never:K}[keyof T]
 
-export type FilterUndefined<T> = T extends object? Pick<T,IsNonUndefined<T>> &PartialPick<T, IsUndefined<T>>:T
+export type FilterUndefined<T> = T extends Array<any>|Date?T:T extends object? Pick<T,IsNonUndefined<T>> &PartialPick<T, IsUndefined<T>>:T
 
 export type SchemaTypeOf<RT extends Any> = FilterUndefined< RT['_A']>
 
