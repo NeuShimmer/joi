@@ -1,3 +1,1 @@
-import * as Joi from './main'
-
-export = Joi
+export * from './main'
