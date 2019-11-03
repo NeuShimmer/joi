@@ -18,6 +18,8 @@ export interface Mixed extends Type<any, any> {
 }
 type NonSomeable<A,B> = A extends B?never:A;
 
+export type IsStrict = undefined extends object?false:true;
+
 export type TypeOf<RT extends Any|IsNotNull> = RT extends Any?RT extends IsNotNull?FilterOp<RT['_A']>:FilterOp<RT['_A']>|undefined:never
 
 export type IsUndefined<T> = {[K in keyof T]:undefined extends T[K]  ?K:never}[keyof T]
@@ -26,11 +28,11 @@ export type PartialPick<T,K extends keyof T> = {[P in K]?:T[P]}
 
 export type IsNonUndefined<T> = {[K in keyof T]:undefined extends T[K] ?never:K}[keyof T]
 
-export type FilterOp<T> = T extends Array<infer A>?Array<FilterUndefined<A>>:T extends Date?T:FilterUndefined<T>
+export type FilterOp<T> = IsStrict extends true? T extends Array<infer A>?Array<FilterUndefined<A>>:T extends Date?T:FilterUndefined<T>:T
 
 export type FilterUndefined<T> =T extends object? Pick<T,IsNonUndefined<T>> &PartialPick<T, IsUndefined<T>>:T
 
-export type SchemaTypeOf<RT extends Any> = FilterUndefined< RT['_A']>
+export type SchemaTypeOf<RT extends Any> = FilterOp<RT['_A']>
 
 export function validate<T extends Joi.AnySchemaA<Any>>(schema: T, value: any): TypeOf<T> {
     return schema.validate(value).value
