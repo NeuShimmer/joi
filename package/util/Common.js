@@ -10,35 +10,43 @@ function createDefaultObject(schema) {
 exports.createDefaultObject = createDefaultObject;
 function JSON2JS(obj, space, deep) {
     if (space === void 0) { space = 2; }
-    if (deep === void 0) { deep = 0; }
-    if (deep === 0) {
-        return ("{" + JSON2JS(obj, space, deep + 1) + "}");
-    }
+    if (deep === void 0) { deep = 1; }
     var data = "\n";
-    for (var key in obj) {
-        switch (typeof obj[key]) {
-            case 'string':
-            case 'number':
-            case 'boolean':
-            case 'undefined':
-                data += "" + getSpace(space, deep) + key + ":" + valueDecorate(obj[key]) + ",\n";
-                break;
-            case 'object':
-                if (!obj[key]) {
-                    data += "" + getSpace(space, deep) + key + ":null,\n";
-                    continue;
+    switch (typeof obj) {
+        case 'object':
+            if (!obj) {
+                return 'null';
+            }
+            data = "{\n";
+            for (var key in obj) {
+                switch (typeof obj[key]) {
+                    case 'string':
+                    case 'number':
+                    case 'boolean':
+                    case 'undefined':
+                        data += "" + getSpace(space, deep) + key + ":" + valueDecorate(obj[key]) + ",\n";
+                        break;
+                    case 'object':
+                        if (!obj[key]) {
+                            data += "" + getSpace(space, deep) + key + ":null,\n";
+                            continue;
+                        }
+                        if (obj[key] instanceof Array)
+                            break;
+                        data += "" + getSpace(space, deep) + key + ":" + JSON2JS(obj[key], space, deep + 1) + ",\n";
+                        break;
+                    default:
+                        data += '';
                 }
-                if (obj[key] instanceof Array)
-                    break;
-                data += "" + getSpace(space, deep) + key + ":{" + JSON2JS(obj[key], space, deep + 1) + getSpace(space, deep) + "},\n";
-                break;
-            default:
-                data += '';
-        }
-        if (obj[key] instanceof Array) {
-            var arr = obj[key];
-            data += "" + getSpace(space, deep) + key + ":[" + arr.map(valueDecorate).join() + "],\n";
-        }
+                if (obj[key] instanceof Array) {
+                    var arr = obj[key];
+                    data += "" + getSpace(space, deep) + key + ":[" + arr.map(function (v) { return JSON2JS(v, space, deep + 1); }).join() + "],\n";
+                }
+            }
+            data += getSpace(space, deep - 1) + "}";
+            break;
+        default:
+            return "" + valueDecorate(obj);
     }
     return data.replace(/,\n$/, "\n");
 }
@@ -61,5 +69,5 @@ function valueDecorate(val) {
     }
 }
 function getSpace(space, deep) {
-    return " ".repeat(space).repeat(deep);
+    return " ".repeat(Math.max(space, 0)).repeat(Math.max(deep, 0));
 }

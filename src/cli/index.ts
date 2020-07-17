@@ -1,7 +1,8 @@
 import yargs from 'yargs'
 import {generateDefaultFileAndWrite} from '../util'
 export function start(){
-    const argv = yargs.command('generate','生成某个schema的默认值',(v)=>{
+    let runCommand = false;
+    const ctx = yargs.command('generate','生成某个schema的默认值',(v)=>{
         return v.option('f',{
             type:'string',
             alias:'file',
@@ -34,10 +35,15 @@ export function start(){
             description:'空格数'
         })
     },(v)=>{
+        runCommand = true;
         generateDefaultFileAndWrite(v.f,v.s,v.t as 'json'|'js'|'ts',v.space,v.d).then((v)=>{
             console.log('done');
         }).catch((v)=>{
-            console.error(v)
+            console.error(v);
         })
-    }).help().argv
+    }).help()
+    const argv = ctx.argv;
+    if(!runCommand){
+        ctx.showHelp()
+    }
 }

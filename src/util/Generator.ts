@@ -25,7 +25,8 @@ export function generateDefaultFile(filePath:string,schemaName:string,distType:G
     return fileData;
 }
 export async function generateDefaultFileAndWrite(filePath:string,schemaName:string,distType:GenerateDistType,spaceCount:number,distFileName:string){
-    const distPath = path.resolve(distFileName);
+    distFileName = path.resolve(distFileName);
+    filePath = path.resolve(filePath)
     const data = generateDefaultFile(filePath,schemaName,distType,spaceCount);
-    return await fs.writeFile(distPath,data)
+    return await fs.writeFile(distFileName,data)
 }

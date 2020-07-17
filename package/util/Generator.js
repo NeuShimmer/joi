@@ -67,13 +67,14 @@ function generateDefaultFile(filePath, schemaName, distType, spaceCount) {
 exports.generateDefaultFile = generateDefaultFile;
 function generateDefaultFileAndWrite(filePath, schemaName, distType, spaceCount, distFileName) {
     return __awaiter(this, void 0, void 0, function () {
-        var distPath, data;
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    distPath = path_1["default"].resolve(distFileName);
+                    distFileName = path_1["default"].resolve(distFileName);
+                    filePath = path_1["default"].resolve(filePath);
                     data = generateDefaultFile(filePath, schemaName, distType, spaceCount);
-                    return [4 /*yield*/, fs_1.promises.writeFile(distPath, data)];
+                    return [4 /*yield*/, fs_1.promises.writeFile(distFileName, data)];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });

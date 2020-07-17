@@ -7,7 +7,8 @@ exports.start = void 0;
 var yargs_1 = __importDefault(require("yargs"));
 var util_1 = require("../util");
 function start() {
-    var argv = yargs_1["default"].command('generate', '生成某个schema的默认值', function (v) {
+    var runCommand = false;
+    var ctx = yargs_1["default"].command('generate', '生成某个schema的默认值', function (v) {
         return v.option('f', {
             type: 'string',
             alias: 'file',
@@ -40,11 +41,16 @@ function start() {
             description: '空格数'
         });
     }, function (v) {
+        runCommand = true;
         util_1.generateDefaultFileAndWrite(v.f, v.s, v.t, v.space, v.d).then(function (v) {
             console.log('done');
         })["catch"](function (v) {
             console.error(v);
         });
-    }).help().argv;
+    }).help();
+    var argv = ctx.argv;
+    if (!runCommand) {
+        ctx.showHelp();
+    }
 }
 exports.start = start;
