@@ -1,6 +1,6 @@
 {
   "name": "@neushimmer/joi",
-  "version": "0.0.7beta7",
+  "version": "0.0.7beta8",
   "main": "package/index.js",
   "license": "MIT",
   "typings": "src/index.ts",
@@ -22,7 +22,8 @@
       "email": "gzj0078@icloud.com"
     },
     {
-      "name": "tangtsz"
+      "name": "tangtsz",
+      "email": "1967629423@qq.com"
     }
   ],
   "scripts": {
