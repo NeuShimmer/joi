@@ -10,4 +10,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 };
 exports.__esModule = true;
-__exportStar(require("./main"), exports);
+__exportStar(require("./Common"), exports);
+__exportStar(require("./Generator"), exports);

@@ -30,8 +30,15 @@
   },
   "dependencies": {
     "@hapi/joi": "16",
-    "@types/hapi__joi": "16"
+    "@types/hapi__joi": "16",
+    "json-beautify": "^1.1.1",
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
+    "@types/node": "^14.0.23",
+    "@types/yargs": "^15.0.5"
+  },
+  "bin": {
+    "neu-joi": "bin/index"
   }
 }
